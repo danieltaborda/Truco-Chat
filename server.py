@@ -11,16 +11,16 @@ import funciones
 import random
 import time
 
-def repartidor():
+def repartidor():#Funcion general.. reparte las cartas 
     cartas_posibles=["1 de espada", "2 de espada", "3 de espada", "4 de espada", "5 de espada", "6 de espada", "7 de espada", "10 de espada", "11 de espada", "12 de espada", "1 de copa", "2 de copa", "3 de copa", "4 de copa", "5 de copa", "6 de copa", "7 de copa", "10 de copa", "11 de copa", "12 de copa", "1 de oro", "2 de oro", "3 de oro", "4 de oro", "5 de oro", "6 de oro", "7 de oro", "10 de oro", "11 de oro", "12 de oro", "1 de basto", "2 de basto", "3 de basto", "4 de basto", "5 de basto", "6 de basto", "7 de basto", "10 de basto", "11 de basto", "12 de basto"]
     pack_1 = []
     pack_2 = []
-    for i in range(3):
-        carta_elegida = random.choice(cartas_posibles)
-        pack_1.append(carta_elegida)
-        cartas_posibles.remove(carta_elegida)
+    for i in range(3):#el truco necesita 3 cartas por jugador 
+        carta_elegida = random.choice(cartas_posibles)# elegimos una carta al azar
+        pack_1.append(carta_elegida)#la agregamos a la lista personal del jugador
+        cartas_posibles.remove(carta_elegida)# la removemos de la lista general para que no salga de vuelta 
 
-    for i in range(3):
+    for i in range(3):#Identico a los puntos anteriores, pero manejando la lista del otro jugador
         carta_elegida = random.choice(cartas_posibles)
         pack_2.append(carta_elegida)
         cartas_posibles.remove(carta_elegida)
@@ -30,10 +30,10 @@ def repartidor():
 def esperar(tiempo):
     time.sleep(int(tiempo))
 
+
 class Server(threading.Thread):
-    """Esta clase envia a los clientes el
-       mensaje recibido por alguno de ellos."""
-    def __init__(self, socket_server):
+
+    def __init__(self, socket_server):#el constructor DEBE recibir un objeto socket como parametro
         threading.Thread.__init__(self)
         self.socket_server = socket_server
         self._read_fd, self._write_fd = os.pipe()
@@ -51,12 +51,12 @@ class Server(threading.Thread):
         salir = False
         jugador1 = False
         jugador2 = False
-        pedidodejug1 = False
-        pedidodejug2 = False
-        termjug1 = False
-        termjug2 = False
+        pedidodejug1 = False###pedidos de puntos(una variable por jugador)
+        pedidodejug2 = False###
+        termjug1 = False##pedidos de terminar la ronda(una variable por jugador)
+        termjug2 = False##
         comenzar_partida = False
-        apedir = 0
+        apedir = 0#puntaje que se pide
 
 
 
@@ -316,15 +316,16 @@ class Server(threading.Thread):
         
                               
 def main():
-    socket_server = socket.socket()
-    socket_server.bind(("", 6969))
-    socket_server.listen(1)
-    chat_server = Server(socket_server)
-    chat_server.start()
+    socket_server = socket.socket()#creamos un objeto socket
+    socket_server.bind(("", 6969))#con el objeto socket creamos un server
+    socket_server.listen(1)#definimos la Cola maxima de clientes esperando para conectarse
+    chat_server = Server(socket_server)#creamos un objeto server y le pasamos como parametro el objeto socket
+    chat_server.start()#corremos la funcion run del objeto server( se va a ejecutar en un hilo distinto y podremos obtener nuevos clintes mientras la corremos)
     print "Server listo, esperando conexiones."
     while 1:
         try:
-            socket_cliente, datos_cliente = socket_server.accept()
+            socket_cliente, datos_cliente = socket_server.accept()#Aceptamos conecciones y obtenemos un objeto socket(del cliente) y la direccion 
+
         except KeyboardInterrupt:
             chat_server.cerrar()
             break 
