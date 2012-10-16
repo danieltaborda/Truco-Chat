@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # diguito69 :       chat con nick 
-# Agresta corp. :   Truco Chat
+# Agresta corp. :   Truco Chat V2.3
 import socket
 import threading
 import os
