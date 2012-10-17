@@ -7,7 +7,6 @@ import socket
 import threading
 import os
 import select
-import funciones
 import random
 import time
 
