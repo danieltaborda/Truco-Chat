@@ -3,6 +3,8 @@
 
 # diguito69 :       chat con nick 
 # Agresta corp. :   Truco Chat V2.3
+
+
 import socket
 import threading
 import os
@@ -10,16 +12,17 @@ import select
 import random
 import time
 
-def repartidor():#Funcion general.. reparte las cartas 
+def repartidor():
+    """Funcion general.. reparte las cartas"""
     cartas_posibles=["1 de espada", "2 de espada", "3 de espada", "4 de espada", "5 de espada", "6 de espada", "7 de espada", "10 de espada", "11 de espada", "12 de espada", "1 de copa", "2 de copa", "3 de copa", "4 de copa", "5 de copa", "6 de copa", "7 de copa", "10 de copa", "11 de copa", "12 de copa", "1 de oro", "2 de oro", "3 de oro", "4 de oro", "5 de oro", "6 de oro", "7 de oro", "10 de oro", "11 de oro", "12 de oro", "1 de basto", "2 de basto", "3 de basto", "4 de basto", "5 de basto", "6 de basto", "7 de basto", "10 de basto", "11 de basto", "12 de basto"]
     pack_1 = []
     pack_2 = []
-    for i in range(3):#el truco necesita 3 cartas por jugador 
-        carta_elegida = random.choice(cartas_posibles)# elegimos una carta al azar
-        pack_1.append(carta_elegida)#la agregamos a la lista personal del jugador
-        cartas_posibles.remove(carta_elegida)# la removemos de la lista general para que no salga de vuelta 
+    for i in range(3): #el truco necesita 3 cartas por jugador 
+        carta_elegida = random.choice(cartas_posibles) # elegimos una carta al azar
+        pack_1.append(carta_elegida) #la agregamos a la lista personal del jugador
+        cartas_posibles.remove(carta_elegida) # la removemos de la lista general para que no salga de vuelta 
 
-    for i in range(3):#Identico a los puntos anteriores, pero manejando la lista del otro jugador
+    for i in range(3): #Identico a los puntos anteriores, pero manejando la lista del otro jugador
         carta_elegida = random.choice(cartas_posibles)
         pack_2.append(carta_elegida)
         cartas_posibles.remove(carta_elegida)
@@ -32,7 +35,7 @@ def esperar(tiempo):
 
 class Server(threading.Thread):
 
-    def __init__(self, socket_server):#el constructor DEBE recibir un objeto socket como parametro
+    def __init__(self, socket_server): #el constructor DEBE recibir un objeto socket como parametro
         threading.Thread.__init__(self)
         self.socket_server = socket_server
         self._read_fd, self._write_fd = os.pipe()
@@ -50,12 +53,12 @@ class Server(threading.Thread):
         salir = False
         jugador1 = False
         jugador2 = False
-        pedidodejug1 = False###pedidos de puntos(una variable por jugador)
-        pedidodejug2 = False###
-        termjug1 = False##pedidos de terminar la ronda(una variable por jugador)
-        termjug2 = False##
+        pedidodejug1 = False  #pedidos de puntos(una variable por jugador)
+        pedidodejug2 = False  #
+        termjug1 = False  #pedidos de terminar la ronda(una variable por jugador)
+        termjug2 = False  #
         comenzar_partida = False
-        apedir = 0#puntaje que se pide
+        apedir = 0 #puntaje que se pide
 
 
 
@@ -68,14 +71,14 @@ class Server(threading.Thread):
                         break
 
                 elif pedidodejug1 == True and self.nick[cliente] == "jugador_2":
-                        cliente.send("jugador_1 ha pedido " + apedir + " puntos. Aceptar ? s/n")#(revisado)
+                        cliente.send("jugador_1 ha pedido " + apedir + " puntos. Aceptar ? s/n") #(revisado)
                         msj = cliente.recv(2048)
                         esperar(2)
-                        if msj == "n": # -------------------sub COMANDO-----(revisado)------
+                        if msj == "n":  # -------------------sub COMANDO-----(revisado)------
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de puntos. ")
                             pedidodejug1 = False                       
-                        elif msj == "s":# -------------------sub COMANDO -----(revisado)-------
+                        elif msj == "s": # -------------------sub COMANDO -----(revisado)-------
                             self.puntaje1 = self.puntaje1 + int(apedir)
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de puntos. ")
                             pedidodejug1 = False
@@ -88,7 +91,7 @@ class Server(threading.Thread):
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de puntos. ")
                             pedidodejug2 = False                       
-                        elif msj == "s":# -------------------sub COMANDO ------(revisado)--------------
+                        elif msj == "s": # -------------------sub COMANDO ------(revisado)--------------
                             self.puntaje2 = self.puntaje2 + int(apedir)
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de puntos. ")
                             pedidodejug2 = False
@@ -102,7 +105,7 @@ class Server(threading.Thread):
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de terminar. \n")
                             termjug1 = False                       
-                        elif msj == "s":# -------------------SUB COMANDO --------------------
+                        elif msj == "s": # -------------------SUB COMANDO --------------------
 
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de terminar. \n")
                             self.puntaje()
@@ -118,7 +121,7 @@ class Server(threading.Thread):
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de terminar. \n")
 
                             termjug2 = False                       
-                        elif msj == "s":# -------------------SUB COMANDO --------------------
+                        elif msj == "s": # -------------------SUB COMANDO --------------------
 
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de terminar. \n")
                             self.puntaje()
@@ -143,22 +146,22 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("Server:"):# -------------------COMANDO FALSO------(revisado)------
+                    elif msj.startswith("Server:"): # -------------------COMANDO FALSO------(revisado)------
                         cliente.send("Tu no puedes hacer eso!\n")
 
 
 
-                    elif msj.startswith("cantar:") and comenzar_partida == True:# COMANDO2---(revisado)-----
+                    elif msj.startswith("cantar:") and comenzar_partida == True: # COMANDO2---(revisado)-----
                         self.enviar("server", self.nick[cliente] + " ha cantado " + msj[7:] + ". \n")
 
 
 
-                    elif msj == "puntaje" and comenzar_partida == True:# --------COMANDO3--(revisado)------
+                    elif msj == "puntaje" and comenzar_partida == True: # --------COMANDO3--(revisado)------
                         self.puntaje()
 
 
 
-                    elif msj == "terminar" and comenzar_partida == True:# -------COMANDO4-----------------
+                    elif msj == "terminar" and comenzar_partida == True: # -------COMANDO4-----------------
                         self.enviar("server", self.nick[cliente] + " ha pedido terminar la ronda. s/n\n")
                         if self.nick[cliente] == "jugador_1": 
                             termjug1 = True
@@ -167,7 +170,7 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("pedir:") and comenzar_partida == True:#COMANDO 5(revisado)
+                    elif msj.startswith("pedir:") and comenzar_partida == True: #COMANDO 5(revisado)
                         apedir = msj[6:]
                         self.enviar("server", self.nick[cliente] + " ha pedido " + apedir + " puntos.\n")
                         if self.nick[cliente] == "jugador_1": 
@@ -177,7 +180,7 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("tirar:") and comenzar_partida == True:# COMANDO 6(revisado)----
+                    elif msj.startswith("tirar:") and comenzar_partida == True: # COMANDO 6(revisado)----
                         numerodecarta = msj[6]
                         usar = True
 
@@ -230,7 +233,7 @@ class Server(threading.Thread):
 
 
 
-                    elif msj == "decir_cartas" and comenzar_partida == True:# ----COMANDO 8(revisado)-----
+                    elif msj == "decir_cartas" and comenzar_partida == True: # ----COMANDO 8(revisado)-----
                         self.decircartas()
                         
 
@@ -268,7 +271,8 @@ class Server(threading.Thread):
             if cliente != self._read_fd:
                 cliente.send(mensaje)
 
-    def puntaje(self):# -------------------Dice el puntaje--------------------
+    def puntaje(self):
+        """Dice el puntaje"""
         msj = "El puntaje es:\nJugador_1: " + str(self.puntaje1) + "\nJugador_2: " + str(self.puntaje2)
         mensaje = "Server: " + msj
         print mensaje
@@ -277,7 +281,8 @@ class Server(threading.Thread):
                 cliente.send(mensaje)
     
 
-    def repartir_y_decir(self): # -------------------Reparte y dice las cartas--------------------
+    def repartir_y_decir(self): 
+        """Reparte y dice las cartas"""
         self.cartas1, self.cartas2 = repartidor()
         for cliente in self.clientes:
             if cliente != self._read_fd:
@@ -290,7 +295,8 @@ class Server(threading.Thread):
                     cliente.send("Tus cartas son: " + str(self.cartas2))  
 
   
-    def decircartas(self): # -------------------dice las cartas--------------------       
+    def decircartas(self): 
+        """Dice las cartas"""       
         for cliente in self.clientes:
             if cliente != self._read_fd:
 
@@ -315,15 +321,15 @@ class Server(threading.Thread):
         
                               
 def main():
-    socket_server = socket.socket()#creamos un objeto socket
-    socket_server.bind(("", 6969))#con el objeto socket creamos un server
-    socket_server.listen(1)#definimos la Cola maxima de clientes esperando para conectarse
-    chat_server = Server(socket_server)#creamos un objeto server y le pasamos como parametro el objeto socket
-    chat_server.start()#corremos la funcion run del objeto server( se va a ejecutar en un hilo distinto y podremos obtener nuevos clintes mientras la corremos)
+    socket_server = socket.socket() #creamos un objeto socket
+    socket_server.bind(("", 6969)) #con el objeto socket creamos un server
+    socket_server.listen(1) #definimos la Cola maxima de clientes esperando para conectarse
+    chat_server = Server(socket_server) #creamos un objeto server y le pasamos como parametro el objeto socket
+    chat_server.start() #corremos la funcion run del objeto server( se va a ejecutar en un hilo distinto y podremos obtener nuevos clintes mientras la corremos)
     print "Server listo, esperando conexiones."
     while 1:
         try:
-            socket_cliente, datos_cliente = socket_server.accept()#Aceptamos conecciones y obtenemos un objeto socket(del cliente) y la direccion 
+            socket_cliente, datos_cliente = socket_server.accept() #Aceptamos conecciones y obtenemos un objeto socket(del cliente) y la direccion 
 
         except KeyboardInterrupt:
             chat_server.cerrar()
