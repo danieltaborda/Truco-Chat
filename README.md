@@ -26,14 +26,14 @@ Cada jugador al terminar la ronda deberá reclamar sus correspondientes puntos a
 Comandos
 ********
 
-1. **desconectar**: Este comando se usa para desconectarse del servidor.
-2. **cantar:**: Luego de este comando se escribe la proposicion (truco, envido, etc) para decirla de una manera formal.
-3. **terminar**: Hace que se termine la ronda. Cabe destacar que el otro jugador, luego de que se haya ejecutado el comando, debe escribir 'n'(para no terminar la ronda) o 's' (para terminar la ronda).
-4. **pedir:**: Luego de este comando se escribe los puntos (en numeros) que el jugador reclama. Cabe destacar que el otro jugador, luego de que se haya ejecutado el comando, debe escribir 'n'(para no entregar los puntos) o 's' (para entregar los puntos).
-5. **tirar:**: Luego de este comando se escribe el numero de carta que el jugador  usa en la 'mesa'(no podra usarla de nuevo).
-6. **nick:**: Luego de este comando se escribe el nick que el usuario quiere ponerse.
-7. **decir_cartas**: Le dice las respectivas cartas que posee a cada jugador.
-8. **nueva_partida**: Inicia una nueva ronda.
+1. ``desconectar``: Este comando se usa para desconectarse del servidor.
+2. ``cantar:``: Luego de este comando se escribe la proposicion (truco, envido, etc) para decirla de una manera formal.
+3. ``terminar``: Hace que se termine la ronda. Cabe destacar que el otro jugador, luego de que se haya ejecutado el comando, debe escribir 'n'(para no terminar la ronda) o 's' (para terminar la ronda).
+4. ``pedir:``: Luego de este comando se escribe los puntos (en numeros) que el jugador reclama. Cabe destacar que el otro jugador, luego de que se haya ejecutado el comando, debe escribir 'n'(para no entregar los puntos) o 's' (para entregar los puntos).
+5. ``tirar:``: Luego de este comando se escribe el numero de carta que el jugador  usa en la 'mesa'(no podra usarla de nuevo).
+6. ``nick:``: Luego de este comando se escribe el nick que el usuario quiere ponerse.
+7. ``decir_cartas``: Le dice las respectivas cartas que posee a cada jugador.
+8. ``nueva_partida``: Inicia una nueva ronda.
 
 
 Enviar mensaje
