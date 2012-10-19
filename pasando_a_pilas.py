@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+
 import socket
 import thread
 from threading import Thread
 import wx
 import time
 import pilas
+
+
 pilas.iniciar(ancho = 900, alto = 600)
-class ClienteP():#anteriormente class Cliente(object), adaptado para correr en otro hilo
-    def __init__(self):#se piden los parametros: el host y el objeto donde se mostarÃ¡n las conversaciones
+
+class ClienteP():
+    '''Anteriormente class Cliente(object), adaptado para correr en otro hilo'''
+    
+    def __init__(self):
+        '''Se piden los parametros: el host y el objeto donde se mostarán las conversaciones'''
         self.enviar = pilas.interfaz.IngresoDeTexto(ancho=350, limite_de_caracteres=48)
         self.enviar.y = -280
         self.boton_enviar = pilas.interfaz.Boton("Enviar")
@@ -19,6 +27,7 @@ class ClienteP():#anteriormente class Cliente(object), adaptado para correr en o
         self.boton_conectar = pilas.interfaz.Boton("Conectar")
         self.boton_conectar.y = 280
         self.boton_conectar.x = 220
+        
         def enviar():                
                 aponer = str(self.enviar.texto)
                 hola = pilas.actores.Texto(aponer)
