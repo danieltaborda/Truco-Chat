@@ -74,11 +74,11 @@ class Server(threading.Thread):
                         cliente.send("jugador_1 ha pedido " + apedir + " puntos. Aceptar ? s/n") #(revisado)
                         msj = cliente.recv(2048)
                         esperar(2)
-                        if msj == "n":  # -------------------sub COMANDO-----(revisado)------
+                        if msj == " n":  # -------------------sub COMANDO-----(revisado)------
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de puntos. ")
                             pedidodejug1 = False                       
-                        elif msj == "s": # -------------------sub COMANDO -----(revisado)-------
+                        elif msj == " s": # -------------------sub COMANDO -----(revisado)-------
                             self.puntaje1 = self.puntaje1 + int(apedir)
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de puntos. ")
                             pedidodejug1 = False
@@ -87,11 +87,11 @@ class Server(threading.Thread):
                         cliente.send("jugador_2 ha pedido " + apedir + " puntos. Aceptar ? s/n")
                         msj = cliente.recv(2048)
                         esperar(2)
-                        if msj == "n": # -------------------sub COMANDO----(revisado)----------------
+                        if msj == " n": # -------------------sub COMANDO----(revisado)----------------
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de puntos. ")
                             pedidodejug2 = False                       
-                        elif msj == "s": # -------------------sub COMANDO ------(revisado)--------------
+                        elif msj == " s": # -------------------sub COMANDO ------(revisado)--------------
                             self.puntaje2 = self.puntaje2 + int(apedir)
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de puntos. ")
                             pedidodejug2 = False
@@ -101,11 +101,11 @@ class Server(threading.Thread):
                         cliente.send("jugador_1 ha pedido terminar. Aceptar ? s/n\n")
                         msj = cliente.recv(2048)
                         esperar(2)
-                        if msj == "n": # -------------------SUB COMANDO--------------------
+                        if msj == " n": # -------------------SUB COMANDO--------------------
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de terminar. \n")
                             termjug1 = False                       
-                        elif msj == "s": # -------------------SUB COMANDO --------------------
+                        elif msj == " s": # -------------------SUB COMANDO --------------------
 
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de terminar. \n")
                             self.puntaje()
@@ -116,12 +116,12 @@ class Server(threading.Thread):
                         cliente.send("jugador_2 ha pedido terminar. Aceptar ? s/n\n")
                         msj = cliente.recv(2048)
                         esperar(2)
-                        if msj == "n": # -------------------SUB COMANDO--------------------
+                        if msj == " n": # -------------------SUB COMANDO--------------------
 
                             self.enviar("server", self.nick[cliente] + " ha denegado la peticion de terminar. \n")
 
                             termjug2 = False                       
-                        elif msj == "s": # -------------------SUB COMANDO --------------------
+                        elif msj == " s": # -------------------SUB COMANDO --------------------
 
                             self.enviar("server", self.nick[cliente] + " ha aceptado la peticion de terminar. \n")
                             self.puntaje()
@@ -136,7 +136,7 @@ class Server(threading.Thread):
 
                     
                     msj = cliente.recv(2048) ## Esta linea recibe
-                    if msj == "desconectar": # -------------------COMANDO 1------(revisado)--------------
+                    if msj == " desconectar": # -------------------COMANDO 1------(revisado)--------------
 
                         # Un cliente se desconect�.
                         self.enviar("server", self.nick[cliente] + " se a desconectado. ")
@@ -146,22 +146,24 @@ class Server(threading.Thread):
 
 
 
+                    elif msj.startswith(" Server:"): # -------------------COMANDO FALSO------(revisado)------
+                        cliente.send("Tu no puedes hacer eso!\n")
                     elif msj.startswith("Server:"): # -------------------COMANDO FALSO------(revisado)------
                         cliente.send("Tu no puedes hacer eso!\n")
 
 
 
-                    elif msj.startswith("cantar:") and comenzar_partida == True: # COMANDO2---(revisado)-----
+                    elif msj.startswith(" cantar:") and comenzar_partida == True: # COMANDO2---(revisado)-----
                         self.enviar("server", self.nick[cliente] + " ha cantado " + msj[7:] + ". \n")
 
 
 
-                    elif msj == "puntaje" and comenzar_partida == True: # --------COMANDO3--(revisado)------
+                    elif msj == " puntaje" and comenzar_partida == True: # --------COMANDO3--(revisado)------
                         self.puntaje()
 
 
 
-                    elif msj == "terminar" and comenzar_partida == True: # -------COMANDO4-----------------
+                    elif msj == " terminar" and comenzar_partida == True: # -------COMANDO4-----------------
                         self.enviar("server", self.nick[cliente] + " ha pedido terminar la ronda. s/n\n")
                         if self.nick[cliente] == "jugador_1": 
                             termjug1 = True
@@ -170,8 +172,8 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("pedir:") and comenzar_partida == True: #COMANDO 5(revisado)
-                        apedir = msj[6:]
+                    elif msj.startswith(" pedir:") and comenzar_partida == True: #COMANDO 5(revisado)
+                        apedir = msj[7:]
                         self.enviar("server", self.nick[cliente] + " ha pedido " + apedir + " puntos.\n")
                         if self.nick[cliente] == "jugador_1": 
                             pedidodejug1 = True
@@ -180,8 +182,8 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("tirar:") and comenzar_partida == True: # COMANDO 6(revisado)----
-                        numerodecarta = msj[6]
+                    elif msj.startswith(" tirar:") and comenzar_partida == True: # COMANDO 6(revisado)----
+                        numerodecarta = msj[7]
                         usar = True
 
                         if self.nick[cliente] == "jugador_1":
@@ -212,11 +214,11 @@ class Server(threading.Thread):
 
 
 
-                    elif msj.startswith("nick:") and comenzar_partida == False: # COMANDO 7(revisado)---
+                    elif msj.startswith(" nick:") and comenzar_partida == False: # COMANDO 7(revisado)---
                         # Un cliente se cambia el nick.
                         nick = self.nick[cliente]
-                        if msj[5:]:
-                            self.nick[cliente] = msj[5:]
+                        if msj[6:]:
+                            self.nick[cliente] = msj[6:]
                         else:
                             datos_cliente = cliente.getpeername()
                             self.nick[cliente] = datos_cliente[0] + ":" + str(datos_cliente[1])
@@ -233,12 +235,12 @@ class Server(threading.Thread):
 
 
 
-                    elif msj == "decir_cartas" and comenzar_partida == True: # ----COMANDO 8(revisado)-----
+                    elif msj == " decir_cartas" and comenzar_partida == True: # ----COMANDO 8(revisado)-----
                         self.decircartas()
                         
 
 
-                    elif msj == "nueva_partida" and comenzar_partida == False: #COMANDO 9(revisado)--
+                    elif msj == " nueva_partida" and comenzar_partida == False: #COMANDO 9(revisado)--
                         if jugador1 == True and jugador2 == True:
                             comenzar_partida = True
 
