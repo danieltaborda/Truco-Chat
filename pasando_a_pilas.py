@@ -15,19 +15,19 @@ class Cliente(Thread):
         Thread.__init__(self)
         self.destino = destino
         self._socket = socket.socket()
-        self._socket.connect((host, 6968))
+        self._socket.connect((host, 6969))
         self.start()
         
     def entrada(self, dato):
         """Lee el teclado y lo envía al server."""
-        print "enviando:" + dato + "\n"
+
         self._socket.send(str(dato))
             
     def salida(self, msj):
         antes = self.destino.texto
-        print antes + "\n"
+
         despues = str(antes) + str(msj) + str("\n")
-        print despues + "\n"
+
         self.destino.texto = despues
         
     def run(self):
