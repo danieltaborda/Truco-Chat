@@ -54,7 +54,7 @@ class Cliente(Thread):
 
 class CuadroConversacion(BaseInterfaz):
 
-    def __init__(self, texto_inicial="", x=0, y=0, ancho=350, limite_de_caracteres=80, icono=None):
+    def __init__(self, texto_inicial="", x=0, y=0, ancho=350, limite_de_caracteres=54, icono=None):
         BaseInterfaz.__init__(self, x=x, y=y)
         self.texto = texto_inicial
         self.cursor = ""
