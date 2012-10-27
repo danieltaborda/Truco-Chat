@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# diguito69 : chat con nick
-# Agresta corp. : Truco Chat V2.3
-
+#
+# Franco Agresta & Luciano Castillo - ITS Villada
+#
 
 import socket
 import threading
@@ -12,17 +11,18 @@ import select
 import random
 import time
 
+
 def repartidor():
     """Funcion general.. reparte las cartas"""
     cartas_posibles=["1 de espada", "2 de espada", "3 de espada", "4 de espada", "5 de espada", "6 de espada", "7 de espada", "10 de espada", "11 de espada", "12 de espada", "1 de copa", "2 de copa", "3 de copa", "4 de copa", "5 de copa", "6 de copa", "7 de copa", "10 de copa", "11 de copa", "12 de copa", "1 de oro", "2 de oro", "3 de oro", "4 de oro", "5 de oro", "6 de oro", "7 de oro", "10 de oro", "11 de oro", "12 de oro", "1 de basto", "2 de basto", "3 de basto", "4 de basto", "5 de basto", "6 de basto", "7 de basto", "10 de basto", "11 de basto", "12 de basto"]
     pack_1 = []
     pack_2 = []
-    for i in range(3): #el truco necesita 3 cartas por jugador
+    for i in range(3): # el truco necesita 3 cartas por jugador
         carta_elegida = random.choice(cartas_posibles) # elegimos una carta al azar
-        pack_1.append(carta_elegida) #la agregamos a la lista personal del jugador
+        pack_1.append(carta_elegida) # la agregamos a la lista personal del jugador
         cartas_posibles.remove(carta_elegida) # la removemos de la lista general para que no salga de vuelta
 
-    for i in range(3): #Identico a los puntos anteriores, pero manejando la lista del otro jugador
+    for i in range(3): # Identico a los puntos anteriores, pero manejando la lista del otro jugador
         carta_elegida = random.choice(cartas_posibles)
         pack_2.append(carta_elegida)
         cartas_posibles.remove(carta_elegida)
@@ -35,7 +35,7 @@ def esperar(tiempo):
 
 class Server(threading.Thread):
 
-    def __init__(self, socket_server): #el constructor DEBE recibir un objeto socket como parametro
+    def __init__(self, socket_server): # el constructor DEBE recibir un objeto socket como parametro
         threading.Thread.__init__(self)
         self.socket_server = socket_server
         self._read_fd, self._write_fd = os.pipe()
@@ -47,18 +47,17 @@ class Server(threading.Thread):
         self.cartaq2=[]
         self.puntaje1 = 0
         self.puntaje2 = 0
-
                
     def run(self):
         salir = False
         jugador1 = False
         jugador2 = False
-        pedidodejug1 = False #pedidos de puntos(una variable por jugador)
+        pedidodejug1 = False # pedidos de puntos(una variable por jugador)
         pedidodejug2 = False #
-        termjug1 = False #pedidos de terminar la ronda(una variable por jugador)
+        termjug1 = False # pedidos de terminar la ronda(una variable por jugador)
         termjug2 = False #
         comenzar_partida = False
-        apedir = 0 #puntaje que se pide
+        apedir = 0 # puntaje que se pide
 
 
 
@@ -71,7 +70,7 @@ class Server(threading.Thread):
                         break
 
                 elif pedidodejug1 == True and self.nick[cliente] == "jugador_2":
-                        cliente.send("jugador_1 ha pedido " + apedir + " puntos. Aceptar ? s/n") #(revisado)
+                        cliente.send("jugador_1 ha pedido " + apedir + " puntos. Aceptar ? s/n") # (revisado)
                         msj = cliente.recv(2048)
                         esperar(2)
                         if msj == "n": # -------------------sub COMANDO-----(revisado)------
