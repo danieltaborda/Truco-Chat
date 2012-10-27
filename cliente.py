@@ -1,13 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#
+# Franco Agresta & Luciano Castillo
+#
+
 import sys
-from PyQt4 import QtGui, QtCore, Qt
-import pilas
-import socket
-import thread
-from threading import Thread
-import time
 import re
+import time
+import socket
+import trhead
+import trheading
+import pilas
+from PyQt4 import QtGui, QtCore, Qt
+from threading import Thread
 from pilas.interfaz.base_interfaz import BaseInterfaz
 
 
@@ -87,6 +92,7 @@ class Cliente(Thread):
         self._socket.close()
         self.salida("Cerrado.")
         
+        
 class Ventana(QtGui.QMainWindow):
 
     def __init__(self, canvas):
@@ -153,9 +159,6 @@ class Ventana(QtGui.QMainWindow):
         self.BotonEnviar.setStatusTip('Enviar mensaje')
         self.layout_panel.addWidget(self.BotonEnviar)
 
-        
-
-
         self.lista = QtGui.QPlainTextEdit()
         self.layout_panel.addWidget(self.lista)
         self.lista.setReadOnly(True)
@@ -175,29 +178,15 @@ def Enviar():
     ventana.CampoEnviar.setText("")
 
 
-
-
-
 app = QtGui.QApplication(sys.argv[1:])
-
-
-
 
 pilas.iniciar(usar_motor="qtsugar")
 
-
-#class Escena:
-
-#    def __init__(self):
 carta, atras = [pilas.actores.Actor('cartas/atras/carta.png', x=200), pilas.actores.Actor('cartas/atras/carta.png', x=200), pilas.actores.Actor('cartas/atras/carta.png', x=200)], [pilas.actores.Actor('cartas/atras/carta.png', x=200), pilas.actores.Actor('cartas/atras/carta.png', x=200), pilas.actores.Actor('cartas/atras/carta.png', x=200)]
 for i in range(len(carta)):
     carta[i].escala, atras[i].escala = 0.5, 0.5
 
-
-
-canvas = pilas.mundo.motor.canvas
-
-
+anvas = pilas.mundo.motor.canvas
 ventana = Ventana(canvas)
 
 app.connect(ventana.BotonConectar, Qt.SIGNAL("clicked()"), Conectar)
