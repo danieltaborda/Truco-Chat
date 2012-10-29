@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Franco Agresta & Luciano Castillo - ITS Villada
+# 2012 - Franco Agresta & Luciano Castillo
 #
 
 import socket
